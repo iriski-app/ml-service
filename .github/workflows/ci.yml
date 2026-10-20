@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run Ruff
+        uses: astral-sh/ruff-action@v3
+        with:
+          args: check --output-format=github
+          src: "."
