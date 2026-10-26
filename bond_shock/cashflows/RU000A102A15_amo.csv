@@ -1,0 +1,5 @@
+isin,name,issuevalue,amortdate,facevalue,initialfacevalue,faceunit,valueprc,value,value_rub,data_source,secid,primary_boardid
+RU000A102A15,Санкт-Петербург обл. 35003,30000000000,2023-10-17,300,1000,RUB,30,300,300,amortization,RU000A102A15,TQCB
+RU000A102A15,Санкт-Петербург обл. 35003,30000000000,2025-10-14,300,1000,RUB,20,200,200,amortization,RU000A102A15,TQCB
+RU000A102A15,Санкт-Петербург обл. 35003,30000000000,2026-10-13,300,1000,RUB,20,200,200,amortization,RU000A102A15,TQCB
+RU000A102A15,Санкт-Петербург обл. 35003,30000000000,2027-04-13,300,1000,RUB,30,300,300,amortization,RU000A102A15,TQCB

@@ -1,0 +1,4 @@
+isin,name,issuevalue,amortdate,facevalue,initialfacevalue,faceunit,valueprc,value,value_rub,data_source,secid,primary_boardid
+RU000A1094U1,Байсэл 001P-01,200000000,2027-01-28,1000,1000,RUB,30,300,300,amortization,RU000A1094U1,TQCB
+RU000A1094U1,Байсэл 001P-01,200000000,2027-04-29,1000,1000,RUB,30,300,300,amortization,RU000A1094U1,TQCB
+RU000A1094U1,Байсэл 001P-01,200000000,2027-07-29,1000,1000,RUB,40,400,400,amortization,RU000A1094U1,TQCB

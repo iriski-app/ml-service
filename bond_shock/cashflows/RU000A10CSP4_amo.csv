@@ -1,0 +1,3 @@
+isin,name,issuevalue,amortdate,facevalue,initialfacevalue,faceunit,valueprc,value,value_rub,data_source,secid,primary_boardid
+RU000A10CSP4,Республика Башкортостан 34016,5000000000,2027-07-22,1000,1000,RUB,20,200,200,amortization,RU000A10CSP4,TQCB
+RU000A10CSP4,Республика Башкортостан 34016,5000000000,2027-09-20,1000,1000,RUB,80,800,800,amortization,RU000A10CSP4,TQCB
