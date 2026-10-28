@@ -1,0 +1,5 @@
+isin,name,issuevalue,amortdate,facevalue,initialfacevalue,faceunit,valueprc,value,value_rub,data_source,secid,primary_boardid
+RU000A10DZH4,АПРИ БО-002Р-12,600000000,2028-09-11,1000,1000,RUB,25,250,250,amortization,RU000A10DZH4,TQCB
+RU000A10DZH4,АПРИ БО-002Р-12,600000000,2028-12-10,1000,1000,RUB,25,250,250,amortization,RU000A10DZH4,TQCB
+RU000A10DZH4,АПРИ БО-002Р-12,600000000,2029-03-10,1000,1000,RUB,25,250,250,amortization,RU000A10DZH4,TQCB
+RU000A10DZH4,АПРИ БО-002Р-12,600000000,2029-06-08,1000,1000,RUB,25,250,250,amortization,RU000A10DZH4,TQCB

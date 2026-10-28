@@ -1,0 +1,6 @@
+isin,name,issuevalue,amortdate,facevalue,initialfacevalue,faceunit,valueprc,value,value_rub,data_source,secid,primary_boardid
+RU000A10DRE8,Бустер.Ру БО-02,200000000,2026-12-05,1000,1000,RUB,10,100,100,amortization,RU000A10DRE8,TQCB
+RU000A10DRE8,Бустер.Ру БО-02,200000000,2027-06-03,1000,1000,RUB,10,100,100,amortization,RU000A10DRE8,TQCB
+RU000A10DRE8,Бустер.Ру БО-02,200000000,2027-11-30,1000,1000,RUB,10,100,100,amortization,RU000A10DRE8,TQCB
+RU000A10DRE8,Бустер.Ру БО-02,200000000,2028-05-28,1000,1000,RUB,10,100,100,amortization,RU000A10DRE8,TQCB
+RU000A10DRE8,Бустер.Ру БО-02,200000000,2028-11-24,1000,1000,RUB,60,600,600,amortization,RU000A10DRE8,TQCB
