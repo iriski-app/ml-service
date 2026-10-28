@@ -7,3 +7,14 @@ pandas>=2.0.0
 requests>=2.31.0
 
 scikit-learn>=1.2.0
+numpy==2.5.4
+pandas==3.1.0
+requests==2.34.2
+matplotlib==3.11.2
+pyarrow==26.0.0
+ipykernel==7.4.0
+catboost==1.2.10
+scikit-learn==1.9.1
+nbformat==5.11.1
+nbclient==0.11.0
+scipy==1.18.1
