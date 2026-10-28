@@ -1,0 +1,10 @@
+.venv/
+.idea/
+__pycache__/
+.ipynb_checkpoints/
+catboost_info/
+
+notebooks/*/data/*
+!notebooks/*/data/.gitkeep
+*.parquet
+*.cbm
