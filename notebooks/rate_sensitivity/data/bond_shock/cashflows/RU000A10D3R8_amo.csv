@@ -1,0 +1,7 @@
+isin,name,issuevalue,amortdate,facevalue,initialfacevalue,faceunit,valueprc,value,value_rub,data_source,secid,primary_boardid
+RU000A10D3R8,СтанкоМашСтрой БО-01,250000000,2027-07-14,1000,1000,RUB,10,100,100,amortization,RU000A10D3R8,TQCB
+RU000A10D3R8,СтанкоМашСтрой БО-01,250000000,2027-10-13,1000,1000,RUB,10,100,100,amortization,RU000A10D3R8,TQCB
+RU000A10D3R8,СтанкоМашСтрой БО-01,250000000,2028-01-12,1000,1000,RUB,10,100,100,amortization,RU000A10D3R8,TQCB
+RU000A10D3R8,СтанкоМашСтрой БО-01,250000000,2028-04-12,1000,1000,RUB,10,100,100,amortization,RU000A10D3R8,TQCB
+RU000A10D3R8,СтанкоМашСтрой БО-01,250000000,2028-07-12,1000,1000,RUB,10,100,100,amortization,RU000A10D3R8,TQCB
+RU000A10D3R8,СтанкоМашСтрой БО-01,250000000,2028-10-11,1000,1000,RUB,50,500,500,amortization,RU000A10D3R8,TQCB

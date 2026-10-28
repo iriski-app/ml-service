@@ -1,0 +1,4 @@
+isin,name,issuevalue,amortdate,facevalue,initialfacevalue,faceunit,valueprc,value,value_rub,data_source,secid,primary_boardid
+RU000A1083X8,Агротек БО-04,75000000,2028-09-21,1000,1000,RUB,34,340,340,amortization,RU000A1083X8,TQCB
+RU000A1083X8,Агротек БО-04,75000000,2028-12-21,1000,1000,RUB,33,330,330,amortization,RU000A1083X8,TQCB
+RU000A1083X8,Агротек БО-04,75000000,2029-03-22,1000,1000,RUB,33,330,330,amortization,RU000A1083X8,TQCB

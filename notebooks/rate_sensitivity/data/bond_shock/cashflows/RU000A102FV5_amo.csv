@@ -1,0 +1,6 @@
+isin,name,issuevalue,amortdate,facevalue,initialfacevalue,faceunit,valueprc,value,value_rub,data_source,secid,primary_boardid
+RU000A102FV5,Минфин Челябинской обл 35001,7000000000,2023-09-05,200,1000,RUB,20,200,200,amortization,RU000A102FV5,TQCB
+RU000A102FV5,Минфин Челябинской обл 35001,7000000000,2024-09-03,200,1000,RUB,20,200,200,amortization,RU000A102FV5,TQCB
+RU000A102FV5,Минфин Челябинской обл 35001,7000000000,2025-09-02,200,1000,RUB,20,200,200,amortization,RU000A102FV5,TQCB
+RU000A102FV5,Минфин Челябинской обл 35001,7000000000,2026-09-01,200,1000,RUB,20,200,200,amortization,RU000A102FV5,TQCB
+RU000A102FV5,Минфин Челябинской обл 35001,7000000000,2027-11-30,200,1000,RUB,20,200,200,amortization,RU000A102FV5,TQCB

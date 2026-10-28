@@ -1,0 +1,5 @@
+isin,name,issuevalue,amortdate,facevalue,initialfacevalue,faceunit,valueprc,value,value_rub,data_source,secid,primary_boardid
+RU000A10ASF9,Сибирское Стекло БО-01,350000000,2026-04-29,700,1000,RUB,10,100,100,amortization,RU000A10ASF9,TQCB
+RU000A10ASF9,Сибирское Стекло БО-01,350000000,2026-07-28,700,1000,RUB,10,100,100,amortization,RU000A10ASF9,TQCB
+RU000A10ASF9,Сибирское Стекло БО-01,350000000,2026-10-26,700,1000,RUB,10,100,100,amortization,RU000A10ASF9,TQCB
+RU000A10ASF9,Сибирское Стекло БО-01,350000000,2027-01-24,700,1000,RUB,70,700,700,amortization,RU000A10ASF9,TQCB

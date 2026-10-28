@@ -1,0 +1,5 @@
+isin,name,issuevalue,amortdate,facevalue,initialfacevalue,faceunit,valueprc,value,value_rub,data_source,secid,primary_boardid
+RU000A10AC75,Томская область 34072,10000000000,2026-04-21,500,1000,RUB,25,250,250,amortization,RU000A10AC75,TQCB
+RU000A10AC75,Томская область 34072,10000000000,2026-10-18,500,1000,RUB,25,250,250,amortization,RU000A10AC75,TQCB
+RU000A10AC75,Томская область 34072,10000000000,2027-04-16,500,1000,RUB,25,250,250,amortization,RU000A10AC75,TQCB
+RU000A10AC75,Томская область 34072,10000000000,2027-12-12,500,1000,RUB,25,250,250,amortization,RU000A10AC75,TQCB

@@ -1,0 +1,4 @@
+isin,name,issuevalue,amortdate,facevalue,initialfacevalue,faceunit,valueprc,value,value_rub,data_source,secid,primary_boardid
+RU000A105LS2,Реиннольц 001Р-02,100000000,2025-06-10,400,1000,RUB,30,300,300,amortization,RU000A105LS2,TQCB
+RU000A105LS2,Реиннольц 001Р-02,100000000,2026-03-10,400,1000,RUB,30,300,300,amortization,RU000A105LS2,TQCB
+RU000A105LS2,Реиннольц 001Р-02,100000000,2026-12-08,400,1000,RUB,40,400,400,amortization,RU000A105LS2,TQCB
