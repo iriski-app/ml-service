@@ -1,0 +1,7 @@
+catboost>=1.2,<2
+grpcio>=1.85.1,<2
+grpcio-health-checking>=1.85.1,<2
+grpcio-status>=1.85.1,<2
+numpy>=1.26,<3
+pandas>=2,<3
+protobuf>=7.35.1,<8
