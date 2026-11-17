@@ -130,8 +130,8 @@ def metric_request() -> pb.EstimateMissingMetricRequest:
 
 
 class FakeProvider:
-    def explain(self, _facts):
-        return {"text": "Итог 800 RUB", "fact_ids": ["total_rub"], "model_version": "test-llm"}
+    def explain(self, _facts, *, timeout=None):
+        return {"text": "DV01: 800 RUB", "fact_ids": ["total_rub"], "model_version": "test-llm"}
 
 
 class ModelTests(unittest.TestCase):

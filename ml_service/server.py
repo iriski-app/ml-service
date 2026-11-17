@@ -19,7 +19,7 @@ from google.rpc import error_details_pb2, status_pb2
 from grpc_health.v1 import health, health_pb2, health_pb2_grpc
 from grpc_status import rpc_status
 
-from .logic import ChatCompletionsProvider, Provider, ServiceError, explain_calculation
+from .logic import Provider, ServiceError, explain_calculation, provider_from_env
 from .models import ModelError, ModelManager
 from .v1 import service_pb2 as pb
 from .v1 import service_pb2_grpc as pb_grpc
@@ -110,22 +110,52 @@ class MLService(pb_grpc.MLServiceServicer):
             for position in request.positions:
                 if position.side not in ("buy", "sell"):
                     raise ModelError("INVALID_ARGUMENT", "side must be buy or sell")
-                positions.append({
+                entry = {
                     "id": position.position_id, "side": position.side.upper(),
                     "value_rub": position.value_rub, "change_rub": position.change_rub,
                     "estimated": position.estimated,
-                })
-            result = explain_calculation({
+                }
+                if position.isin:
+                    entry["isin"] = position.isin
+                if position.HasField("inputs"):
+                    inputs = position.inputs
+                    sources = {
+                        pb.METRIC_SOURCE_OBSERVED: "observed",
+                        pb.METRIC_SOURCE_CATBOOST: "catboost",
+                        pb.METRIC_SOURCE_COUPON_RULE: "coupon_rule",
+                    }
+                    entry["inputs"] = {
+                        "current_fair_value": inputs.current_fair_value,
+                        "position_currency": inputs.position_currency,
+                        "fx_rate_to_rub": inputs.fx_rate_to_rub,
+                        "duration_source": sources.get(inputs.duration_source, "unknown"),
+                        "convexity_source": sources.get(inputs.convexity_source, "unknown"),
+                        "coupon_type": inputs.coupon_type,
+                    }
+                    for name in ("duration_mod", "convexity", "coupon_frequency"):
+                        if inputs.HasField(name):
+                            entry["inputs"][name] = getattr(inputs, name)
+                positions.append(entry)
+            data = {
                 "calculation_id": request.calculation_id,
                 "calculation_kind": kinds[request.calculation_kind],
                 "currency": request.currency, "total_rub": request.total_rub,
                 "data_as_of": request.data_as_of, "incomplete": request.incomplete,
                 "estimated": request.estimated, "positions": positions,
-            }, self.provider)
+            }
+            if request.method == pb.EXPLANATION_METHOD_DURATION_CONVEXITY:
+                data["method"] = "duration_convexity"
+            elif request.method != pb.EXPLANATION_METHOD_UNSPECIFIED:
+                raise ModelError("INVALID_ARGUMENT", "unknown explanation method")
+            if request.HasField("yield_shift_bp"):
+                data["yield_shift_bp"] = request.yield_shift_bp
+            result = explain_calculation(data, self.provider, timeout=context.time_remaining())
             return pb.ExplainCalculationResponse(
                 request_id=request.request_id, calculation_id=result["calculation_id"],
                 text=result["text"], fact_ids=result["fact_ids"],
                 model_version=result["model_version"], verified=result["verified"],
+                calculation_details_available=result["calculation_details_available"],
+                limitations=result["limitations"],
             )
 
         return self._run(context, request.request_id, "ExplainCalculation", action)
@@ -167,7 +197,7 @@ def create_server(models: ModelManager, provider: Provider | None, address: str)
 def serve() -> None:
     models = ModelManager(Path(os.getenv("MODEL_DIR", "/models")))
     try:
-        provider = ChatCompletionsProvider.from_env()
+        provider = provider_from_env()
     except ServiceError:
         provider = None
     address = os.getenv("ML_GRPC_LISTEN", "127.0.0.1:50051")
