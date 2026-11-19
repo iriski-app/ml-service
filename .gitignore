@@ -334,3 +334,9 @@ notebooks/*/data/*
 !notebooks/*/data/.gitkeep
 *.parquet
 *.cbm
+
+# Versioned model bundle shared with the backend team.
+!/dist/
+/dist/*
+!/dist/iriski-models-v1.tar.gz
+!/dist/iriski-models-v1.tar.gz.sha256
