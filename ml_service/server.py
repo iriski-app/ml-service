@@ -195,7 +195,7 @@ def create_server(models: ModelManager, provider: Provider | None, address: str)
 
 
 def serve() -> None:
-    models = ModelManager(Path(os.getenv("MODEL_DIR", "/models")))
+    models = ModelManager(Path(os.getenv("MODEL_DIR", "./models")))
     try:
         provider = provider_from_env()
     except ServiceError:

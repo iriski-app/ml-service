@@ -1,4 +1,4 @@
-"""Load approved CatBoost artifacts once and perform inference only."""
+"""Load enabled CatBoost artifacts once and perform inference only."""
 
 from __future__ import annotations
 
@@ -74,7 +74,7 @@ class ModelManager:
         self.scenario_model: CatBoostRegressor | None = None
         self.scenario_metadata: dict[str, Any] = {}
         self.metric_error = "imputation artifacts unavailable"
-        self.scenario_error = "approved scenario artifact unavailable"
+        self.scenario_error = "enabled scenario artifact unavailable"
         self._load_metric()
         self._load_scenario()
 
@@ -116,18 +116,46 @@ class ModelManager:
         directory = self.root / "scenario"
         try:
             metadata = _json(directory / "metadata.json")
-            if metadata.get("features") != SCENARIO_FEATURES or not metadata.get("approved_for_service"):
-                raise ValueError("scenario model is not approved for service")
-            if not metadata.get("model_version") or not metadata.get("target_kind") or not metadata.get("target_unit"):
+            enabled = metadata.get("enabled_for_service", metadata.get("approved_for_service", False)) is True
+            if metadata.get("features") != SCENARIO_FEATURES or not enabled:
+                raise ValueError("scenario model is not enabled for service")
+            if (not metadata.get("model_version")
+                    or metadata.get("target_kind") != "formula_proxy_reference_position"
+                    or metadata.get("target_unit") != "RUB_FOR_10_FACE_VALUES"):
                 raise ValueError("scenario target is not defined")
-            if float(metadata["shift_bp_min"]) >= float(metadata["shift_bp_max"]):
+            lower, upper = float(metadata["shift_bp_min"]), float(metadata["shift_bp_max"])
+            if not finite(lower) or not finite(upper) or lower >= upper:
                 raise ValueError("invalid scenario range")
+            ranges = metadata.get("input_ranges", {})
+            if metadata.get("enabled_for_service") and set(ranges) != {"duration_mod", "ytm", "face_value"}:
+                raise ValueError("scenario training domain is missing")
+            for name, bounds in ranges.items():
+                if name not in ("duration_mod", "ytm", "face_value") or len(bounds) != 2:
+                    raise ValueError("invalid scenario input range")
+                low, high = map(float, bounds)
+                if not finite(low) or not finite(high) or low > high:
+                    raise ValueError("invalid scenario input range")
+            report = metadata.get("training_report_file")
+            if metadata.get("enabled_for_service"):
+                if not report or Path(report).name != report:
+                    raise ValueError("scenario validation report is missing")
+                expected = metadata["sha256"].get(report)
+                if not expected or hashlib.sha256((directory / report).read_bytes()).hexdigest() != expected:
+                    raise ValueError("scenario validation report checksum mismatch")
+                validation = _json(directory / report)
+                if (validation.get("model_sha256") != metadata["sha256"].get(metadata["model_file"])
+                        or validation.get("input_ranges") != ranges
+                        or validation.get("features") != SCENARIO_FEATURES
+                        or validation.get("tested_shifts_bp") != metadata.get("tested_shifts_bp")):
+                    raise ValueError("scenario model, domain and validation report do not match")
             model = _model(directory / metadata["model_file"], metadata["sha256"])
+            if model.feature_names_ != SCENARIO_FEATURES:
+                raise ValueError("scenario artifact features do not match metadata")
             self.scenario_model = model
             self.scenario_metadata = metadata
             self.scenario_error = ""
         except (OSError, ValueError, TypeError, KeyError, AttributeError, CatBoostError) as exc:
-            self.scenario_error = f"approved scenario artifact unavailable: {type(exc).__name__}"
+            self.scenario_error = f"enabled scenario artifact unavailable: {type(exc).__name__}"
 
     def estimate(self, request: pb.EstimateMissingMetricRequest) -> pb.EstimateMissingMetricResponse:
         name = METRIC_NAMES.get(request.metric)
@@ -219,12 +247,18 @@ class ModelManager:
             for field in ("duration_mod", "ytm", "face_value"):
                 if not position.HasField(field) or not finite(getattr(position, field)):
                     raise ModelError("INVALID_ARGUMENT", f"{field} is required")
-            if position.duration_mod < 0 or position.face_value <= 0:
-                raise ModelError("INVALID_ARGUMENT", "invalid duration or face value")
+            if position.duration_mod < 0 or position.face_value <= 0 or position.ytm <= -100:
+                raise ModelError("INVALID_ARGUMENT", "invalid duration, face value or yield")
+            for name, bounds in metadata.get("input_ranges", {}).items():
+                if not float(bounds[0]) <= getattr(position, name) <= float(bounds[1]):
+                    raise ModelError("OUT_OF_RANGE", f"{name} is outside the training range")
             rows.append({"shock_abs": request.shift_bp / 10000, "DurationMod": position.duration_mod,
                          "YIELDCLOSE": position.ytm, "FACEVALUE": position.face_value})
         try:
-            predictions = np.asarray(self.scenario_model.predict(pd.DataFrame(rows, columns=SCENARIO_FEATURES))).reshape(-1)
+            # The target formula is identically zero at dy=0. Do not expose a
+            # tree model's numerical residual as an effect of a zero shock.
+            predictions = (np.zeros(len(rows)) if request.shift_bp == 0 else
+                           np.asarray(self.scenario_model.predict(pd.DataFrame(rows, columns=SCENARIO_FEATURES))).reshape(-1))
             if len(predictions) != len(rows) or not np.isfinite(predictions).all():
                 raise ValueError("invalid scenario output")
         except (ValueError, OverflowError, TypeError, CatBoostError) as exc:
@@ -235,6 +269,9 @@ class ModelManager:
             target_unit=str(metadata["target_unit"]), experimental=bool(metadata.get("experimental", False)),
         )
         response.limitations.extend(metadata.get("limitations", []))
+        tested_shifts = metadata.get("tested_shifts_bp")
+        if tested_shifts is not None and request.shift_bp not in tested_shifts:
+            response.limitations.append("This intermediate shift was not separately evaluated; model interpolation is approximate.")
         for position, value in zip(request.positions, predictions, strict=True):
             response.positions.add(position_id=position.position_id, model_value=float(value))
         return response
