@@ -324,6 +324,12 @@ pyrightconfig.json
 # Keep local IDE files, datasets and training artifacts out of service commits.
 .idea/
 catboost_info/
+.venv/
+.idea/
+__pycache__/
+.ipynb_checkpoints/
+catboost_info/
+
 notebooks/*/data/*
 !notebooks/*/data/.gitkeep
 *.parquet
