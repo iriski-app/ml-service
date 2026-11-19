@@ -1,0 +1,9 @@
+*
+!Dockerfile
+!ml_service/
+!ml_service/**
+ml_service/__pycache__/
+ml_service/**/__pycache__/
+ml_service/test_*.py
+**/.env
+**/.env.*

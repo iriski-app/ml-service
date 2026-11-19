@@ -249,7 +249,10 @@ celerybeat.pid
 
 # Environments
 .env
+.env.*
+!.env.example
 .venv
+models/
 env/
 venv/
 ENV/
@@ -317,6 +320,10 @@ pyrightconfig.json
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode,pycharm,jupyternotebooks
+
+# Keep local IDE files, datasets and training artifacts out of service commits.
+.idea/
+catboost_info/
 .venv/
 .idea/
 __pycache__/
